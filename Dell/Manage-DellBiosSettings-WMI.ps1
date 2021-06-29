@@ -34,7 +34,10 @@
 
     .PARAMETER LogFile
         Specify the name of the log file along with the full path where it will be stored. The file must have a .log extension. During a task sequence the path will always be set to _SMSTSLogPath
-
+	
+    .PARAMETER Settings
+        Pass settings as a array of strings in the following format: @("NumLock,Enabled","WakeOnLan,LanOnly","Virtualization,Enabled","VtForDirectIo,Enabled").
+    
     .EXAMPLE
         #Set BIOS settings supplied in the script
         Manage-DellBiosSettings-WMI.ps1 -SetSettings -AdminPassword ExamplePassword
@@ -96,12 +99,16 @@ param(
 
 #List of settings to be configured ============================================================================================
 #==============================================================================================================================
-$Settings = (
-    "NumLock,Enabled",
-    "WakeOnLan,LanOnly",
-    "Virtualization,Enabled",
-    "VtForDirectIo,Enabled"
-)
+if (-not $Settings) {
+	$Settings = (
+	    # Describe settings here. Example:
+	    <#
+	    "SettingName,SettingValue",
+	    "SettingName2,SettingValue2",
+	    "Numlock,Enabled"
+	    #> 
+	)
+}
 #==============================================================================================================================
 #==============================================================================================================================
 
